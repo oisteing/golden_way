@@ -17,13 +17,12 @@ if "sentence" not in st.session_state:
 if st.button("Ny setning"):
     st.session_state.sentence = random.choice(sentences)
 
-# Justert CSS: container starter nå under knappen
 st.markdown("""
     <style>
-      /* Knapp under Streamlit-headeren */
+      /* Knapp: flyttet litt lenger opp */
       .stButton {
         position: absolute;
-        top: 80px;
+        top: 60px;   /* var 80px, nå 60px */
         left: 20px;
         z-index: 1000;
       }
@@ -36,10 +35,10 @@ st.markdown("""
         border-radius: 4px !important;
       }
 
-      /* Container flyttet lenger ned (120px) for å gi rom til knappen */
+      /* Bokscontainer: flyttet lenger ned */
       .container {
         position: absolute;
-        top: 120px;    /* var 80px, nå 120px */
+        top: 160px;   /* var 120px, nå 160px */
         bottom: 0;
         left: 0;
         right: 0;
