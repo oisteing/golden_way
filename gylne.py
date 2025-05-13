@@ -22,7 +22,7 @@ st.markdown("""
       /* Knapp: flyttet litt lenger opp */
       .stButton {
         position: absolute;
-        top: 60px;   /* var 80px, nå 60px */
+        top: 40px;   /* var 80px, nå 60px */
         left: 20px;
         z-index: 1000;
       }
