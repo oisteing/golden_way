@@ -1,7 +1,7 @@
 import random
 import streamlit as st
 
-# Side­konfigurasjon
+# Sidekonfigurasjon
 st.set_page_config(page_title="Tilfeldig setning", layout="centered")
 
 @st.cache_data
@@ -17,11 +17,9 @@ if "sentence" not in st.session_state:
 if st.button("Ny setning"):
     st.session_state.sentence = random.choice(sentences)
 
-# Sett CSS slik at teksten er mørk (#333) uansett tema og en god kontrast
-st.markdown(
-    """
+st.markdown("""
     <style>
-      /* Knapp øverst til venstre */
+      /* Flytter knappen under Streamlit-headeren */
       .stButton {
         position: absolute;
         top: 80px;
@@ -29,26 +27,30 @@ st.markdown(
         z-index: 1000;
       }
       .stButton > button {
-        background-color: white;
+        background-color: white !important;
         color: #333 !important;
-        border: 2px solid #333;
-        padding: 10px 20px;
-        font-size: 18px;
-        border-radius: 4px;
+        border: 2px solid #333 !important;
+        padding: 10px 20px !important;
+        font-size: 18px !important;
+        border-radius: 4px !important;
       }
 
-      /* Container for setningen */
+      /* Container som dekker hele plassen under headeren */
       .container {
+        position: absolute;
+        top: 80px;    /* under header */
+        bottom: 0;
+        left: 0;
+        right: 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        height: calc(100vh - 80px);
-        margin-top: 80px;
       }
+
       .sentence-box {
         border: 2px solid #333;
         background-color: #f9f9f9;
-        color: #333 !important;         /* Helt sikkert mørk tekst */
+        color: #333 !important;
         padding: 20px;
         font-size: 1.5rem;
         text-align: center;
@@ -57,18 +59,12 @@ st.markdown(
         word-wrap: break-word;
       }
     </style>
-    """,
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
 
-# Render kun boksen med setningen
-st.markdown(
-    f"""
+st.markdown(f"""
     <div class="container">
       <div class="sentence-box">
         {st.session_state.sentence}
       </div>
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+""", unsafe_allow_html=True)
