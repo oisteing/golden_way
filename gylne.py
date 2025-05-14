@@ -14,7 +14,7 @@ bg_image_base64 = get_base64_image(bg_image_path)
 # --- Sett opp side ---
 st.set_page_config(page_title="Golden ways", layout="wide")
 
-# --- Legg inn CSS for bakgrunn og knapp/tekstboks ---
+# --- Legg inn CSS for bakgrunn, knapp, tekstboks og mobiljusteringer ---
 st.markdown(
     f"""
     <style>
@@ -26,7 +26,7 @@ st.markdown(
         background-attachment: fixed;
       }}
 
-      /* Hvit knapp med mørk kant, posisjonert under header */
+      /* Hvit knapp med mørk kant, posisjonert under header på desktop */
       .stButton {{
         position: absolute;
         top: 70px;
@@ -43,7 +43,7 @@ st.markdown(
         border-radius: 4px;
       }}
 
-      /* Sentral beholder for setning */
+      /* Sentral beholder for setning på desktop */
       .container {{
         position: absolute;
         top: 70px;
@@ -62,11 +62,12 @@ st.markdown(
         background-color: rgba(249, 249, 249, 0.8);
         border-radius: 8px;
         z-index: 1000;
+        color: #333 !important;
       }}
 
-      /* Mobiljusteringer: skjermer inntil 600px brede */
+      /* Mobiljusteringer for skjermer inntil 600px brede */
       @media (max-width: 600px) {{
-        /* Gjør knappen relativ og sentrert, under header */
+        /* Knappen flyter i dokumentflyt og er sentrert */
         .stButton {{
           position: relative !important;
           top: 0 !important;
@@ -76,21 +77,22 @@ st.markdown(
           z-index: 1000;
         }}
         .stButton > button {{
-          width: 90%;          /* knapp fyller nesten hele bredden */
+          width: 90%;
           box-sizing: border-box;
         }}
 
-        /* Skyv setningsboksen lengre ned slik at den ikke overlapper */
+        /* Skyv setningsboksen ned under knappen */
         .container {{
-          top: 140px !important; /* 70px header + 10px margin knapp + knapp-høyde (~60px) */
+          top: 140px !important; /* header + knapp + margin */
+        }}
+        .sentence-box {{
+          color: #333 !important;
         }}
       }}
     </style>
     """,
     unsafe_allow_html=True,
 )
-
-
 
 @st.cache_data
 def load_sentences(path="sentences.txt"):
