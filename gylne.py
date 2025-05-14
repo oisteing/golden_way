@@ -1,6 +1,7 @@
 import random
 import streamlit as st
 import base64
+import streamlit.components.v1 as components
 
 # --- Hjelpefunksjon for å laste og base64-kode bakgrunnsbilde ---
 def get_base64_image(path: str) -> str:
@@ -14,7 +15,7 @@ bg_image_base64 = get_base64_image(bg_image_path)
 # --- Sett opp side ---
 st.set_page_config(page_title="Golden ways", layout="wide")
 
-# --- Legg inn CSS for bakgrunn, knapp, tekstboks og mobiljusteringer ---
+# --- Legg inn CSS for bakgrunn, knapp, kopi-knapp, tekstboks og mobiljusteringer ---
 st.markdown(
     f"""
     <style>
@@ -26,7 +27,7 @@ st.markdown(
         background-attachment: fixed;
       }}
 
-      /* Hvit knapp med mørk kant, posisjonert under header på desktop */
+      /* Nytt tema-knapp på desktop */
       .stButton {{
         position: absolute;
         top: 70px;
@@ -43,7 +44,24 @@ st.markdown(
         border-radius: 4px;
       }}
 
-      /* Sentral beholder for setning på desktop */
+      /* Kopi-knapp på desktop */
+      .copy-btn {{
+        position: absolute;
+        top: 70px;
+        left: 200px; /* juster etter knappens bredde */
+        z-index: 1000;
+      }}
+      .copy-btn > button {{
+        background-color: white;
+        color: #333;
+        border: 2px solid #333;
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        border-radius: 4px;
+      }}
+
+      /* Sentral beholder for setning */
       .container {{
         position: absolute;
         top: 70px;
@@ -67,26 +85,19 @@ st.markdown(
 
       /* Mobiljusteringer for skjermer inntil 600px brede */
       @media (max-width: 600px) {{
-        /* Knappen flyter i dokumentflyt og er sentrert */
-        .stButton {{
+        .stButton, .copy-btn {{
           position: relative !important;
           top: 0 !important;
           left: 0 !important;
           margin: 10px auto;
           display: block;
-          z-index: 1000;
         }}
-        .stButton > button {{
+        .stButton > button, .copy-btn > button {{
           width: 90%;
           box-sizing: border-box;
         }}
-
-        /* Skyv setningsboksen ned under knappen */
         .container {{
-          top: 140px !important; /* header + knapp + margin */
-        }}
-        .sentence-box {{
-          color: #333 !important;
+          top: 200px !important; /* header + 2 knapper + margin */
         }}
       }}
     </style>
@@ -104,8 +115,28 @@ sentences = load_sentences()
 if "sentence" not in st.session_state:
     st.session_state.sentence = random.choice(sentences)
 
+# «Nytt tema»-knapp
 if st.button("Nytt tema"):
     st.session_state.sentence = random.choice(sentences)
+
+# «Kopier»-knapp via komponent med JS
+components.html(
+    """
+    <div class="copy-btn">
+      <button id="copy-btn">Kopier</button>
+    </div>
+    <script>
+      const btn = document.getElementById('copy-btn');
+      btn.onclick = () => {
+        const text = document.querySelector('.sentence-box').innerText;
+        navigator.clipboard.writeText(text);
+        btn.innerText = 'Kopiert!';
+        setTimeout(() => btn.innerText = 'Kopier', 1500);
+      };
+    </script>
+    """,
+    height=60,
+)
 
 # Render setningsboksen
 st.markdown(
