@@ -12,7 +12,7 @@ bg_image_path = "vaffel.png"
 bg_image_base64 = get_base64_image(bg_image_path)
 
 # --- Sett opp side ---
-st.set_page_config(page_title="Nytt tema", layout="wide")
+st.set_page_config(page_title="Golden ways", layout="wide")
 
 # --- Legg inn CSS for bakgrunn og knapp/tekstboks ---
 st.markdown(
@@ -78,7 +78,7 @@ sentences = load_sentences()
 if "sentence" not in st.session_state:
     st.session_state.sentence = random.choice(sentences)
 
-if st.button("Ny setning"):
+if st.button("Nytt tema"):
     st.session_state.sentence = random.choice(sentences)
 
 # Render setningsboksen
