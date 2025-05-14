@@ -1,6 +1,7 @@
 import random
 import streamlit as st
 import base64
+import json
 import streamlit.components.v1 as components
 
 # --- Hjelpefunksjon for å laste og base64-kode bakgrunnsbilde ---
@@ -15,7 +16,7 @@ bg_image_base64 = get_base64_image(bg_image_path)
 # --- Sett opp side ---
 st.set_page_config(page_title="Golden ways", layout="wide")
 
-# --- Legg inn CSS for bakgrunn, knapp, kopi-knapp, tekstboks og mobiljusteringer ---
+# --- Legg inn CSS for bakgrunn, knapper, tekstboks og mobiljusteringer ---
 st.markdown(
     f"""
     <style>
@@ -119,20 +120,21 @@ if "sentence" not in st.session_state:
 if st.button("Nytt tema"):
     st.session_state.sentence = random.choice(sentences)
 
-# «Kopier»-knapp via komponent med JS
+# «Kopier»-knapp via komponent med JS som kopierer kun setningen
+safe_sentence = json.dumps(st.session_state.sentence)
 components.html(
-    """
+    f"""
     <div class="copy-btn">
       <button id="copy-btn">Kopier</button>
     </div>
     <script>
+      const text = {safe_sentence};
       const btn = document.getElementById('copy-btn');
-      btn.onclick = () => {
-        const text = document.querySelector('.sentence-box').innerText;
+      btn.onclick = () => {{
         navigator.clipboard.writeText(text);
         btn.innerText = 'Kopiert!';
         setTimeout(() => btn.innerText = 'Kopier', 1500);
-      };
+      }};
     </script>
     """,
     height=60,
