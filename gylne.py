@@ -18,37 +18,6 @@ st.set_page_config(page_title="Golden ways", layout="wide")
 st.markdown(
     f"""
     <style>
-      /* ... eksisterende CSS ... */
-
-      /* Mobiljusteringer: skjermer inntil 600px brede */
-      @media (max-width: 600px) {{
-        /* Gjør knappen relativ og sentrert, under header */
-        .stButton {{
-          position: relative !important;
-          top: 0 !important;
-          left: 0 !important;
-          margin: 10px auto;
-          display: block;
-          z-index: 1000;
-        }}
-        .stButton > button {{
-          width: 90%;          /* knapp fyller nesten hele bredden */
-          box-sizing: border-box;
-        }}
-
-        /* Skyv setningsboksen lengre ned slik at den ikke overlapper */
-        .container {{
-          top: 140px !important; /* 70px header + 10px margin knapp + knapp-høyde (~60px) */
-        }}
-      }}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    f"""
-    <style>
       /* Bakgrunnsbilde for hele appen */
       .stApp {{
         background-image: url("data:image/png;base64,{bg_image_base64}");
@@ -94,10 +63,34 @@ st.markdown(
         border-radius: 8px;
         z-index: 1000;
       }}
+
+      /* Mobiljusteringer: skjermer inntil 600px brede */
+      @media (max-width: 600px) {{
+        /* Gjør knappen relativ og sentrert, under header */
+        .stButton {{
+          position: relative !important;
+          top: 0 !important;
+          left: 0 !important;
+          margin: 10px auto;
+          display: block;
+          z-index: 1000;
+        }}
+        .stButton > button {{
+          width: 90%;          /* knapp fyller nesten hele bredden */
+          box-sizing: border-box;
+        }}
+
+        /* Skyv setningsboksen lengre ned slik at den ikke overlapper */
+        .container {{
+          top: 140px !important; /* 70px header + 10px margin knapp + knapp-høyde (~60px) */
+        }}
+      }}
     </style>
     """,
     unsafe_allow_html=True,
 )
+
+
 
 @st.cache_data
 def load_sentences(path="sentences.txt"):
